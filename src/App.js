@@ -1,27 +1,27 @@
-import { useState, useEffect } from 'react';
-import './App.css';
-import { TaskCreator } from './components/TaskCreator';
-import { Tasktable } from './components/TaskTable';
+import { useState, useEffect } from "react";
+import "./App.css";
+import { TaskCreator } from "./components/TaskCreator";
+import { Tasktable } from "./components/TaskTable";
 
 function App() {
-
   const [tasksItems, setTasksItems] = useState([]);
+  const [showCompleted, setShowCompleted] = useState(false);
 
   function createNewTask(taskName) {
-    tasksItems.find(task => task.name === taskName)
+    tasksItems.find((task) => task.name === taskName)
       ? alert("La tarea ya existe", "error")
       : setTasksItems([...tasksItems, { name: taskName, done: false }]);
   }
 
-  const toggleTask = task => {
+  const toggleTask = (task) => {
     setTasksItems(
-      tasksItems.map(
-        taskItem => taskItem.name === task.name 
-        ? { ...taskItem, done: !taskItem.done } 
-        : taskItem
+      tasksItems.map((taskItem) =>
+        taskItem.name === task.name
+          ? { ...taskItem, done: !taskItem.done }
+          : taskItem
       )
     );
-  }
+  };
 
   useEffect(() => {
     const tasks = localStorage.getItem("tasks");
@@ -34,11 +34,26 @@ function App() {
     localStorage.setItem("tasks", JSON.stringify(tasksItems));
   }, [tasksItems]);
 
-
   return (
     <div className="App">
       <TaskCreator createNewTask={createNewTask} />
-      <Tasktable tasks={tasksItems} toggleTask={toggleTask}/>
+      <Tasktable tasks={tasksItems} toggleTask={toggleTask} />
+
+      <div>
+        <input
+          type="checkbox"
+          onChange={(e) => setShowCompleted(!showCompleted)}
+        />{" "}
+        <label>Show Tasks Done</label>
+      </div>
+
+      {showCompleted === true && (
+        <Tasktable
+          tasks={tasksItems}
+          toggleTask={toggleTask}
+          showCompleted={showCompleted}
+        />
+      )}
     </div>
   );
 }
