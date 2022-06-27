@@ -12,10 +12,10 @@ export const Tasktable = ({tasks, toggleTask, showCompleted = false}) => {
   }
 
   return (
-    <table>
+    <table className="table table-dark table-striped table-bordered border-secondary my-3">
       <thead>
-        <tr>
-          <th>Tareas</th>
+        <tr className={!showCompleted ? "table-primary" : "table-primary"}>
+          <th>{ !showCompleted ? "To do" : "Done" } </th>
         </tr>
       </thead>
       <tbody>

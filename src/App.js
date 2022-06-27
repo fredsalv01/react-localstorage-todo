@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import "./App.css";
+import Container from "./components/Container";
 import { TaskCreator } from "./components/TaskCreator";
 import { Tasktable } from "./components/TaskTable";
 import VisibilityControl from "./components/VisibilityControl";
@@ -41,23 +42,26 @@ function App() {
   }, [tasksItems]);
 
   return (
-    <div className="App">
-      <TaskCreator createNewTask={createNewTask} />
-      <Tasktable tasks={tasksItems} toggleTask={toggleTask} />
+    <main className="bg-dark vh-100 text-white">
+        <Container>
 
-      <VisibilityControl
-        isChecked={showCompleted}
-        setShowCompleted={(checked) => setShowCompleted(checked)}
-        cleanTasks={cleanTasks}
-      />
-      {showCompleted === true && (
-        <Tasktable
-          tasks={tasksItems}
-          toggleTask={toggleTask}
-          showCompleted={showCompleted}
-        />
-      )}
-    </div>
+          <TaskCreator createNewTask={createNewTask} />
+          <Tasktable tasks={tasksItems} toggleTask={toggleTask} />
+
+          <VisibilityControl
+            isChecked={showCompleted}
+            setShowCompleted={(checked) => setShowCompleted(checked)}
+            cleanTasks={cleanTasks}
+          />
+          {showCompleted === true && (
+            <Tasktable
+              tasks={tasksItems}
+              toggleTask={toggleTask}
+              showCompleted={showCompleted}
+            />
+          )}
+        </Container>
+    </main>
   );
 }
 
